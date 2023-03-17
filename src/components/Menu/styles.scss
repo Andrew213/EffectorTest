@@ -1,0 +1,22 @@
+.menu {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__listBtn {
+    width: 100%;
+    margin-top: 25px;
+    transition: 3s !important;
+
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: center;
+    & > span {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+}
