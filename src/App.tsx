@@ -1,43 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Button, Layout, Space } from "antd";
-import "./styles/App.scss";
-import cn from "classnames";
+import { Layout } from "antd";
 import Menu from "./components/Menu/Menu";
+import QuestionCard from "./components/Card/QuestionCard";
+import { useStore } from "effector-react";
+import { getQuestionFx } from "./api/questions";
+import { $card } from "./components/Card/store/model";
+import "./styles/App.scss";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 
-const headerStyle: React.CSSProperties = {
-  textAlign: "center",
-  color: "#fff",
-  height: 64,
-  paddingInline: 50,
-  lineHeight: "64px",
-  backgroundColor: "#7dbcea",
-};
 const App: React.FC = () => {
-  // useEffect(() => {
-  //   const foo = async () => {
-  //     const response = await fetch(
-  //       "https://engine.lifeis.porn/api/millionaire.php?qType=3&count=1"
-  //     );
-  //     const her = await response.json();
-  //     console.log(`response `, her);
-  //   };
-  //   foo();
-  // }, []);
+  // const loading = useStore(getQuestionFx.pending);
 
-  // const [show, setShow] = useState(false);
+  const cardStore = useStore($card);
+
+  // console.log(`loading `, loading);
+
   return (
     <Layout style={{ backgroundColor: "transparent" }}>
       <Content className="content">
+        {/* {loading && <Loader />} */}
+        {/* <ScoreBlock /> */}
+        {cardStore?.length && <QuestionCard />}
+
         <Menu />
-        {/* <div
-        // className={cn({ animate__fadeOut: !show }, "animate__animated", {
-        //   animate__fadeIn: show,
-        // })}
-        >
-          Content
-        </div> */}
       </Content>
     </Layout>
   );

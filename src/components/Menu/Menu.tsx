@@ -9,12 +9,9 @@ import {
 import cn from "classnames";
 import { useGate, useStore } from "effector-react";
 import "./styles.scss";
-import {
-  $btnClass,
-  $menuClass,
-  menuButtonClicked,
-  menuGate,
-} from "./store/store";
+import * as model from "./store/model";
+import { getQuestionEvent } from "../../api/questions";
+import { fadeOutFx } from "../../animationEffects";
 
 type menuItemT = {
   title: string;
@@ -41,24 +38,26 @@ const menuItems: menuItemT[] = [
 ];
 
 const Menu: React.FC = () => {
-  const menuClass = useStore($menuClass);
-  const btnClass = useStore($btnClass);
-  const menuRef = useRef<HTMLDivElement>(null);
-  useGate(menuGate, "menu");
+  useGate(model.menuGate, "menu");
+
+  const disableMenuBtn = useStore(fadeOutFx.pending);
 
   return (
-    <div className="menu" ref={menuRef}>
+    <div className="menu">
       <Typography.Title style={{ fontSize: 25 }}>
         Выбери сложность вопросов
       </Typography.Title>
-      <div className={menuClass}>
+      <div className="menu">
         <ul className="menu__list">
           {menuItems.map((menuItem) => {
             return (
               <li className="menu__listItem" key={menuItem.difficult}>
                 <Button
-                  className={btnClass}
-                  onClick={() => menuButtonClicked("animate__zoomOut")}
+                  disabled={disableMenuBtn}
+                  className="menu__button"
+                  onClick={() =>
+                    model.menuButtonClicked({ difficult: menuItem.difficult })
+                  }
                 >
                   {menuItem.title}
                 </Button>

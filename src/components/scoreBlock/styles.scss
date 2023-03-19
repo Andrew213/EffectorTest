@@ -1,0 +1,16 @@
+.scoreBlock {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: 200px;
+  &__item {
+    display: flex;
+    align-items: center;
+  }
+  &__count {
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
