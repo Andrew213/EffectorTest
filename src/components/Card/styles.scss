@@ -1,9 +1,9 @@
 .cardWrapper {
   opacity: 0;
-  transform: scale3d(0, 0, 0, 0);
+  scale: 0;
 }
 .card {
-  --borderWidth: 3px;
+  --borderWidth: 2px;
   position: relative;
   border-radius: var(--borderWidth);
   max-width: 800px;
@@ -39,11 +39,16 @@
   }
   &__button {
     box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
-
     & > span {
       font-size: 18px;
       font-weight: 600;
     }
+  }
+  &__button--correct {
+    background-color: green;
+  }
+  &__button--incorrect {
+    background-color: red;
   }
   &__wrapperBtn {
     display: flex;
@@ -55,36 +60,6 @@
   &__button + &__button {
     margin-top: 15px;
   }
-}
-
-.gradient-border {
-  --borderWidth: 3px;
-  background: #1d1f20;
-  position: relative;
-  border-radius: var(--borderWidth);
-}
-.gradient-border:after {
-  content: "";
-  position: absolute;
-  top: calc(-1 * var(--borderWidth));
-  left: calc(-1 * var(--borderWidth));
-  height: calc(100% + var(--borderWidth) * 2);
-  width: calc(100% + var(--borderWidth) * 2);
-  background: linear-gradient(
-    60deg,
-    #f79533,
-    #f37055,
-    #ef4e7b,
-    #a166ab,
-    #5073b8,
-    #1098ad,
-    #07b39b,
-    #6fba82
-  );
-  border-radius: calc(2 * var(--borderWidth));
-  z-index: -1;
-  animation: animatedgradient 3s ease alternate infinite;
-  background-size: 300% 300%;
 }
 
 @keyframes animatedgradient {

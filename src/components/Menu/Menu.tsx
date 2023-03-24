@@ -1,17 +1,10 @@
 import { Button, Typography } from "antd";
-import {
-  MutableRefObject,
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+
 import cn from "classnames";
 import { useGate, useStore } from "effector-react";
 import "./styles.scss";
 import * as model from "./store/model";
-import { getQuestionEvent } from "../../api/questions";
-import { fadeOutFx } from "../../animationEffects";
+import { fadeOutFx } from "../../stores/animationEffects";
 
 type menuItemT = {
   title: string;
@@ -54,7 +47,7 @@ const Menu: React.FC = () => {
               <li className="menu__listItem" key={menuItem.difficult}>
                 <Button
                   disabled={disableMenuBtn}
-                  className="menu__button"
+                  className={cn("menu__button", "button--hover")}
                   onClick={() =>
                     model.menuButtonClicked({ difficult: menuItem.difficult })
                   }

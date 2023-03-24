@@ -1,9 +1,11 @@
-import { createEffect, EffectError } from "effector";
-import { DataFromFn, settingsT } from "../components/Menu/store/model";
+import { createEffect } from "effector";
+import { DataFromFn } from "../components/Menu/store/model";
+import { gameSettingsT } from "../stores/main";
 
 export interface CardStoreT {
   question: string;
   answers: string[];
+  correctAnswer: string;
   id: number;
 }
 
@@ -27,11 +29,11 @@ async function request<TResponse>(
   }
 }
 
-export const getQuestionFx = createEffect<settingsT, CardStoreT[], any>(
+export const getQuestionFx = createEffect<gameSettingsT, CardStoreT[], any>(
   async (params) => {
     const count = params.count || 1;
     const response = await request<responseI>(
-      `${BASE_URL}?qType=${params.difficult}&count=${count}`
+      `${BASE_URL}?qType=${params.difficult}&count=${count}&t=${Date.now()}`
     );
     if (response.ok) {
       console.log(`response `, response);

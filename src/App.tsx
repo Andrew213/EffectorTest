@@ -2,25 +2,26 @@ import { Layout } from "antd";
 import Menu from "./components/Menu/Menu";
 import QuestionCard from "./components/Card/QuestionCard";
 import { useStore } from "effector-react";
-import { getQuestionFx } from "./api/questions";
 import { $card } from "./components/Card/store/model";
 import "./styles/App.scss";
+import { useEffect } from "react";
+import { getQuestionEvent, getQuestionFx } from "./api/questions";
+import Loader from "./components/loader/Loader";
 
 const { Content } = Layout;
 
 const App: React.FC = () => {
-  // const loading = useStore(getQuestionFx.pending);
-
   const cardStore = useStore($card);
 
-  // console.log(`loading `, loading);
+  console.log(`cardStore in APP `, cardStore);
 
   return (
     <Layout style={{ backgroundColor: "transparent" }}>
       <Content className="content">
         {/* {loading && <Loader />} */}
         {/* <ScoreBlock /> */}
-        {cardStore?.length && <QuestionCard />}
+        {/* {loading && <Loader />} */}
+        {cardStore?.length > 0 && <QuestionCard />}
 
         <Menu />
       </Content>
