@@ -64,17 +64,17 @@ export const tadaFx = createEffect(async (classNameBtn: string) => {
   );
 });
 
-fadeOutFx.done.watch((params) => {
-  console.log(`fadeOut done`, params);
-});
+// fadeOutFx.done.watch((params) => {
+//   console.log(`fadeOut done`, params);
+// });
 
-tadaFx.done.watch((params) => {
-  console.log(`tadaFx done`, params);
-});
+// tadaFx.done.watch((params) => {
+//   console.log(`tadaFx done`, params);
+// });
 
-shakeXFx.done.watch((params) => {
-  console.log(`shakeXFx done`, params);
-});
+// shakeXFx.done.watch((params) => {
+//   console.log(`shakeXFx done`, params);
+// });
 
 export const fadeOutEvent = fadeOutFx.prepend((params: DataFromFn) => {
   return params.params;

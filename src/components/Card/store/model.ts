@@ -1,12 +1,7 @@
 import { createEffect, createEvent, createStore, sample } from "effector";
 import { createGate } from "effector-react";
 import { CardStoreT, getQuestionFx } from "../../../api/questions";
-import {
-  fadeInFx,
-  fadeOutFx,
-  shakeXFx,
-  tadaFx,
-} from "../../../stores/animationEffects";
+import { fadeInFx } from "../../../stores/animationEffects";
 
 export const $card = createStore<CardStoreT[] | []>([]);
 
@@ -19,22 +14,18 @@ export type onSelectAnswerT = {
 
 export const onSelectAnswer = createEvent<onSelectAnswerT>();
 
+export const onCorrectAnswer = createEvent<string>();
+export const onIncorrectAnswer = createEvent<string>();
+
 const checkAnswerFx = createEffect((props: onSelectAnswerT) => {
   const cardStore = $card.getState()[0];
 
-  const currentBtn = document.querySelector(`.${props.buttonClass}`);
-
   if (cardStore.correctAnswer === props.answer) {
-    console.log(`correct`);
-    tadaFx(props.buttonClass);
+    onCorrectAnswer(props.buttonClass);
     return;
   }
-  console.log(`props.buttonClass `, props.buttonClass);
-  shakeXFx(props.buttonClass);
+  onIncorrectAnswer(props.buttonClass);
   return;
-  // console.log(`currentBtn `, currentBtn);
-  // console.log(`cardStore `, cardStore);
-  // console.log(`props `, props);
 });
 
 sample({

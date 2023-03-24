@@ -5,14 +5,21 @@ import { gameSettingsT, setGameSettings } from "../../../stores/main";
 
 export const menuGate = createGate<string>();
 
-export const menuButtonClicked = createEvent<gameSettingsT>();
+export const menuButtonClicked =
+  createEvent<Omit<gameSettingsT, "correctCount" | "incorrectCount">>();
 
 sample({
   clock: menuGate.open,
   target: fadeInFx,
 });
 
-export type DataFromFn = gameSettingsT & { params: string; result: any };
+export type DataFromFn = Omit<
+  gameSettingsT,
+  "correctCount" | "incorrectCount"
+> & {
+  params: string;
+  result: any;
+};
 
 sample({
   clock: menuButtonClicked,
