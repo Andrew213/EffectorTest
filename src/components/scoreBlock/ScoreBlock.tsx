@@ -1,17 +1,28 @@
+import { useStore } from "effector-react";
+import { $game } from "../../stores/main";
 import "./styles.scss";
 
 const ScoreBlock: React.FC = () => {
+  const gameStore = useStore($game);
+
+  console.log(`gameStore `, gameStore);
+
   return (
     <div className="scoreBlock">
       <div className="scoreBlock__item">
-        <svg height="40px" width="40px" viewBox="0 0 512 457.57" fill="green">
+        <svg
+          height="40px"
+          width="40px"
+          viewBox="0 0 512 457.57"
+          className="correctIcon"
+        >
           <path d="M0,220.57c100.43-1.33,121-5.2,191.79,81.5,54.29-90,114.62-167.9,179.92-235.86C436-.72,436.5-.89,512,.24,383.54,143,278.71,295.74,194.87,457.57,150,361.45,87.33,280.53,0,220.57Z" />
         </svg>
-        <span className="scoreBlock__count">0</span>
+        <span className="scoreBlock__count">{gameStore.correctCount}</span>
       </div>
       <div className="scoreBlock__item">
         <svg
-          fill="red"
+          className="incorrectIcon"
           height="40px"
           width="40px"
           version="1.1"
@@ -31,7 +42,7 @@ const ScoreBlock: React.FC = () => {
 	C316.426,196.043,380.533,141.939,412.861,78.976z"
           />
         </svg>
-        <span className="scoreBlock__count">0</span>
+        <span className="scoreBlock__count">{gameStore.incorrectCount}</span>
       </div>
     </div>
   );

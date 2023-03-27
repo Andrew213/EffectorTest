@@ -4,6 +4,7 @@ import QuestionCard from "./components/Card/QuestionCard";
 import { useStore } from "effector-react";
 import { $card } from "./components/Card/store/model";
 import "./styles/App.scss";
+import ScoreBlock from "./components/scoreBlock/ScoreBlock";
 
 const { Content } = Layout;
 
@@ -14,9 +15,9 @@ const App: React.FC = () => {
     <Layout style={{ backgroundColor: "transparent" }}>
       <Content className="content">
         {/* {loading && <Loader />} */}
-        {/* <ScoreBlock /> */}
+        {!!cardStore?.length && <ScoreBlock />}
         {/* {loading && <Loader />} */}
-        {cardStore?.length > 0 && <QuestionCard />}
+        {!!cardStore?.length && <QuestionCard />}
 
         <Menu />
       </Content>

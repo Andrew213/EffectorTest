@@ -1,3 +1,4 @@
+@import "../../styles/vars.scss";
 .scoreBlock {
   display: flex;
   justify-content: space-between;
@@ -13,4 +14,10 @@
     font-size: 18px;
     font-weight: 600;
   }
+}
+.correctIcon {
+  fill: $green;
+}
+.incorrectIcon {
+  fill: $red;
 }
