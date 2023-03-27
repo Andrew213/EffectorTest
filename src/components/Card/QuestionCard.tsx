@@ -1,6 +1,7 @@
 import { Button, Card } from "antd";
 import classNames from "classnames";
 import { useGate, useStore } from "effector-react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import shuffleArray from "../../utils/shuffleArray";
 import * as model from "./store/model";
@@ -9,9 +10,23 @@ import "./styles.scss";
 const QuestionCard: React.FC = () => {
   const cardStore = useStore(model.$card);
 
+  const [shuffledAnswers, setShuffledAnswers] = useState<
+    { answer: string; id: string }[]
+  >([]);
+
   useGate(model.showGate, "cardWrapper");
 
-  const answers = shuffleArray<string>(cardStore[0].answers);
+  useEffect(() => {
+    const answers = shuffleArray<string>(
+      cardStore[0].answers as unknown as string[]
+    );
+    setShuffledAnswers(
+      answers.map((answer) => {
+        const btnUid = uuidv4();
+        return { answer, id: btnUid };
+      })
+    );
+  }, []);
 
   return (
     <div className="cardWrapper">
@@ -25,23 +40,23 @@ const QuestionCard: React.FC = () => {
         }}
       >
         <div className="card__wrapperBtn">
-          {answers.slice(0, 2).map((answer) => {
-            const btnUid = uuidv4();
+          {shuffledAnswers.slice(0, 2).map(({ answer, id }) => {
             return (
               <Button
                 size="large"
-                onClick={() =>
+                disabled={cardStore[0].answersDisabled}
+                onClick={() => {
                   model.onSelectAnswer({
                     answer,
-                    buttonClass: `card__button--${btnUid}`,
-                  })
-                }
+                    buttonClass: `card__button--${id}`,
+                  });
+                }}
                 className={classNames(
                   "card__button",
                   "button--hover",
-                  `card__button--${btnUid}`
+                  `card__button--${id}`
                 )}
-                key={btnUid}
+                key={id}
               >
                 {answer}
               </Button>
@@ -49,23 +64,24 @@ const QuestionCard: React.FC = () => {
           })}
         </div>
         <div className="card__wrapperBtn">
-          {answers.slice(2, 4).map((answer) => {
-            const btnUid = uuidv4();
+          {shuffledAnswers.slice(2, 4).map(({ answer, id }) => {
+            console.log(`1`);
             return (
               <Button
+                disabled={cardStore[0].answersDisabled}
                 size="large"
                 onClick={() =>
                   model.onSelectAnswer({
                     answer,
-                    buttonClass: `card__button--${btnUid}`,
+                    buttonClass: `card__button--${id}`,
                   })
                 }
                 className={classNames(
                   "card__button",
                   "button--hover",
-                  `card__button--${btnUid}`
+                  `card__button--${id}`
                 )}
-                key={btnUid}
+                key={id}
               >
                 {answer}
               </Button>

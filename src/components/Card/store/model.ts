@@ -1,9 +1,17 @@
 import { createEffect, createEvent, createStore, sample } from "effector";
 import { createGate } from "effector-react";
-import { CardStoreT, getQuestionFx } from "../../../api/questions";
+import { getQuestionFx } from "../../../api/questions";
 import { fadeInFx } from "../../../stores/animationEffects";
 
-export const $card = createStore<CardStoreT[] | []>([]);
+export interface CardStoreT {
+  question: string;
+  answers: { answer: string; id: string }[];
+  correctAnswer: string;
+  answersDisabled: boolean;
+  id: number;
+}
+
+export const $card = createStore<CardStoreT[]>([]);
 
 export const showGate = createGate<string>();
 
@@ -14,12 +22,11 @@ export type onSelectAnswerT = {
 
 export const onSelectAnswer = createEvent<onSelectAnswerT>();
 
-export const onCorrectAnswer = createEvent<string>();
+export const onCorrectAnswer = createEvent<any>();
 export const onIncorrectAnswer = createEvent<string>();
 
 const checkAnswerFx = createEffect((props: onSelectAnswerT) => {
   const cardStore = $card.getState()[0];
-
   if (cardStore.correctAnswer === props.answer) {
     onCorrectAnswer(props.buttonClass);
     return;
@@ -34,6 +41,15 @@ sample({
 });
 sample({
   clock: onSelectAnswer,
+  source: $card,
+  fn(src) {
+    return [{ ...src[0], answersDisabled: true }];
+  },
+  target: $card,
+});
+
+sample({
+  clock: onSelectAnswer,
   target: checkAnswerFx,
 });
 
@@ -42,7 +58,7 @@ sample({
   fn(clk) {
     return clk.map((data: CardStoreT) => ({
       ...data,
-      correctAnswer: data.answers[0],
+      correctAnswer: data.answers[0] as unknown as string,
     }));
   },
   target: $card,

@@ -20,11 +20,9 @@ export const $game = createStore<gameSettingsT>({
   incorrectCount: 0,
 });
 
-// $game.watch((currentState) => {
-//   console.log(`currentState `, currentState);
-// });
-
 export const setGameSettings = createEvent<gameSettingsT>();
+
+// остановился тут, придумать, как разделить 2 таргета по клику на на верный и неверный ответ
 
 sample({
   clock: onCorrectAnswer,

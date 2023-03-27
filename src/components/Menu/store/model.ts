@@ -6,7 +6,9 @@ import { gameSettingsT, setGameSettings } from "../../../stores/main";
 export const menuGate = createGate<string>();
 
 export const menuButtonClicked =
-  createEvent<Omit<gameSettingsT, "correctCount" | "incorrectCount">>();
+  createEvent<
+    Omit<gameSettingsT, "correctCount" | "incorrectCount" | "answersDisabled">
+  >();
 
 sample({
   clock: menuGate.open,

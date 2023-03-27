@@ -1,13 +1,7 @@
 import { createEffect } from "effector";
+import { CardStoreT } from "../components/Card/store/model";
 import { DataFromFn } from "../components/Menu/store/model";
 import { gameSettingsT } from "../stores/main";
-
-export interface CardStoreT {
-  question: string;
-  answers: string[];
-  correctAnswer: string;
-  id: number;
-}
 
 export interface responseI {
   ok: boolean;
