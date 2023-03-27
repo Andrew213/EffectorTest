@@ -1,6 +1,7 @@
 import { createEvent, createStore, sample } from "effector";
 import { getQuestionFx } from "../../api/questions";
 import {
+  $card,
   onCorrectAnswer,
   onIncorrectAnswer,
 } from "../../components/Card/store/model";
@@ -59,12 +60,31 @@ sample({
 });
 
 sample({
+  clock: [shakeXFx.done, tadaFx.done],
+  fn(clk) {
+    console.log(`some done`);
+    return "cardWrapper";
+  },
+  target: fadeOutFx,
+});
+
+sample({
   clock: fadeOutFx.done,
   source: $game,
   fn: (source) => {
+    console.log(`her`);
     return { ...$game.getState(), ...source };
   },
   target: getQuestionFx,
+});
+
+sample({
+  clock: fadeOutFx.done,
+  source: $game,
+  fn: (source) => {
+    return [];
+  },
+  target: $card,
 });
 
 sample({

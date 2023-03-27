@@ -37,13 +37,4 @@ export const getQuestionFx = createEffect<gameSettingsT, CardStoreT[], any>(
   }
 );
 
-getQuestionFx.doneData.watch((her) => console);
-
-export const getQuestionEvent = getQuestionFx.prepend((params: DataFromFn) => {
-  return {
-    difficult: params.difficult,
-    count: params?.count,
-  };
-});
-
 getQuestionFx.fail.watch((err) => console.error(`err`, err));
