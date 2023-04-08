@@ -7,7 +7,10 @@ export const menuGate = createGate<string>();
 
 export const menuButtonClicked =
   createEvent<
-    Omit<gameSettingsT, "correctCount" | "incorrectCount" | "answersDisabled">
+    Omit<
+      gameSettingsT,
+      "correctCount" | "incorrectCount" | "answersDisabled" | "start"
+    >
   >();
 
 sample({

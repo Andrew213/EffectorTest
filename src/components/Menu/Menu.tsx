@@ -1,32 +1,51 @@
-import { Button, Typography } from "antd";
+import { Button, Tooltip, Typography } from "antd";
 
 import cn from "classnames";
 import { useGate, useStore } from "effector-react";
 import "./styles.scss";
 import * as model from "./store/model";
 import { fadeOutFx } from "../../stores/animationEffects";
+import { useState } from "react";
 
 type menuItemT = {
   title: string;
   difficult: 1 | 2 | 3 | 4;
+  tooltip: string;
+  timer: 8 | 6 | 4;
 };
 
 const menuItems: menuItemT[] = [
   {
     title: "Детские",
     difficult: 4,
+    timer: 4,
+    get tooltip() {
+      return `Время на ответ: ${this.timer} сек.`;
+    },
   },
   {
     title: "Лёгкие",
     difficult: 1,
+    timer: 4,
+    get tooltip() {
+      return `Время на ответ: ${this.timer} сек.`;
+    },
   },
   {
     title: "Средние",
     difficult: 2,
+    timer: 6,
+    get tooltip() {
+      return `Время на ответ: ${this.timer} сек.`;
+    },
   },
   {
     title: "Сложные",
     difficult: 3,
+    timer: 8,
+    get tooltip() {
+      return `Время на ответ: ${this.timer} сек.`;
+    },
   },
 ];
 
@@ -34,6 +53,8 @@ const Menu: React.FC = () => {
   useGate(model.menuGate, "menu");
 
   const disableMenuBtn = useStore(fadeOutFx.pending);
+
+  const [hideTooltip, setHideTooltip] = useState<boolean>(false);
 
   return (
     <div className="menu">
@@ -48,11 +69,23 @@ const Menu: React.FC = () => {
                 <Button
                   disabled={disableMenuBtn}
                   className={cn("menu__button", "button--hover")}
-                  onClick={() =>
-                    model.menuButtonClicked({ difficult: menuItem.difficult })
-                  }
+                  onClick={() => {
+                    model.menuButtonClicked({
+                      settings: {
+                        difficult: menuItem.difficult,
+                        timer: menuItem.timer,
+                      },
+                    });
+                    setHideTooltip(true);
+                  }}
                 >
-                  {menuItem.title}
+                  <Tooltip
+                    title={menuItem.tooltip}
+                    placement="right"
+                    open={hideTooltip ? false : undefined}
+                  >
+                    {menuItem.title}
+                  </Tooltip>
                 </Button>
               </li>
             );

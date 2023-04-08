@@ -1,7 +1,8 @@
+import { $game } from "../../../stores/main";
 import { createEffect, createEvent, createStore, sample } from "effector";
 import { createGate } from "effector-react";
 import { getQuestionFx } from "../../../api/questions";
-import { fadeInFx } from "../../../stores/animationEffects";
+import { fadeInFx, fadeOutFx } from "../../../stores/animationEffects";
 
 export interface CardStoreT {
   question: string;
@@ -11,7 +12,7 @@ export interface CardStoreT {
   id: number;
 }
 
-export const $card = createStore<CardStoreT[]>([]);
+export const $card = createStore<CardStoreT[]>([]).reset(fadeOutFx.done);
 
 export const showGate = createGate<string>();
 
@@ -39,6 +40,7 @@ sample({
   clock: showGate.open,
   target: fadeInFx,
 });
+
 sample({
   clock: onSelectAnswer,
   source: $card,

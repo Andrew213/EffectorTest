@@ -64,17 +64,19 @@ export const tadaFx = createEffect(async (classNameBtn: string) => {
   );
 });
 
-// fadeOutFx.done.watch((params) => {
-//   console.log(`fadeOut done`, params);
-// });
-
-// tadaFx.done.watch((params) => {
-//   console.log(`tadaFx done`, params);
-// });
-
-// shakeXFx.done.watch((params) => {
-//   console.log(`shakeXFx done`, params);
-// });
+export const timerFx = createEffect(async (duration: number) => {
+  const target = document.querySelector(`.timer`) as HTMLElement;
+  console.log(`duration `, duration);
+  await tween({
+    render: (props) => {
+      target.style.width = props.width;
+    },
+    easing: "swingFromTo",
+    duration: duration,
+    from: { width: 0 },
+    to: { width: 100 },
+  }).then();
+});
 
 export const fadeOutEvent = fadeOutFx.prepend((params: DataFromFn) => {
   return params.params;

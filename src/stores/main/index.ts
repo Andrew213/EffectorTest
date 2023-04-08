@@ -1,7 +1,6 @@
 import { createEvent, createStore, sample } from "effector";
 import { getQuestionFx } from "../../api/questions";
 import {
-  $card,
   onCorrectAnswer,
   onIncorrectAnswer,
 } from "../../components/Card/store/model";
@@ -11,15 +10,24 @@ export type gameSettingsT = {
   correctCount?: number;
   incorrectCount?: number;
   restart?: boolean;
-  difficult: number;
+  settings: {
+    difficult: 1 | 2 | 3 | 4;
+    timer?: 8 | 6 | 4;
+  };
   count?: number;
+  start: boolean;
 };
 
 export const $game = createStore<gameSettingsT>({
-  difficult: 1,
+  settings: {
+    difficult: 1,
+  },
   correctCount: 0,
   incorrectCount: 0,
+  start: false,
 });
+
+console.log(`game `, $game);
 
 export const setGameSettings = createEvent<gameSettingsT>();
 
@@ -62,7 +70,6 @@ sample({
 sample({
   clock: [shakeXFx.done, tadaFx.done],
   fn(clk) {
-    console.log(`some done`);
     return "cardWrapper";
   },
   target: fadeOutFx,
@@ -72,19 +79,9 @@ sample({
   clock: fadeOutFx.done,
   source: $game,
   fn: (source) => {
-    console.log(`her`);
     return { ...$game.getState(), ...source };
   },
   target: getQuestionFx,
-});
-
-sample({
-  clock: fadeOutFx.done,
-  source: $game,
-  fn: (source) => {
-    return [];
-  },
-  target: $card,
 });
 
 sample({
@@ -93,8 +90,9 @@ sample({
     const currentState = $game.getState();
     return {
       ...currentState,
-      difficult: clk.difficult,
+      settings: clk.settings,
       count: clk.count,
+      start: true,
     };
   },
   target: $game,

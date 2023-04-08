@@ -5,8 +5,6 @@ import "./styles.scss";
 const ScoreBlock: React.FC = () => {
   const gameStore = useStore($game);
 
-  console.log(`gameStore `, gameStore);
-
   return (
     <div className="scoreBlock">
       <div className="scoreBlock__item">

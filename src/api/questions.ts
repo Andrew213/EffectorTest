@@ -1,6 +1,6 @@
 import { createEffect } from "effector";
+
 import { CardStoreT } from "../components/Card/store/model";
-import { DataFromFn } from "../components/Menu/store/model";
 import { gameSettingsT } from "../stores/main";
 
 export interface responseI {
@@ -23,14 +23,16 @@ async function request<TResponse>(
   }
 }
 
+//&apikey=${process.env.REACT_APP_API_KEY}
 export const getQuestionFx = createEffect<gameSettingsT, CardStoreT[], any>(
   async (params) => {
     const count = params.count || 1;
     const response = await request<responseI>(
-      `${BASE_URL}?qType=${params.difficult}&count=${count}&t=${Date.now()}`
+      `${BASE_URL}?qType=${
+        params.settings.difficult
+      }&count=${count}&t=${Date.now()}`
     );
     if (response.ok) {
-      console.log(`response `, response);
       return response.data as CardStoreT[];
     }
     throw Error(response.data as string);
